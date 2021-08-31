@@ -1,0 +1,14 @@
+---
+  - name: Start Fail2ban
+    service:
+      name: fail2ban
+      enabled: true
+      state: started
+  
+  - name: Setup Conf
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    loop:
+      - { src: fail2ban/jail.local, dest: /etc/fail2ban/jail.local }
+      - { src: fail2ban/sshd.conf, dest: /etc/fail2ban/jail.d/sshd.conf }

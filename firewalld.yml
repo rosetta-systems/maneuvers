@@ -1,0 +1,23 @@
+---
+  - name: Start Firewalld
+    service:
+      name: firewalld
+      enabled: true
+      state: started
+
+  - name: Services
+    firewalld:
+      service: "{{ item }}"
+      state: enabled
+      permanent: true
+      immediate: true
+    loop: "{{ fwd_services }}"
+
+  - name: Ports
+    firewalld:
+      port: "{{ item }}" 
+      state: enabled
+      permanent: true
+      immediate: true
+    loop: "{{ fwd_ports }}"
+      

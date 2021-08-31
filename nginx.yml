@@ -1,0 +1,40 @@
+---
+  - name: Create Root Directories
+    file:
+      state: directory
+      setype: httpd_sys_content_t
+      owner: root
+      group: nginx
+      mode: 02750
+      path: /var/www/html
+
+  - name: Create index.html
+    copy:
+      src: nginx/index.html
+      dest: /var/www/html
+
+  - name: Setup nginx.conf
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    loop:
+      - { src: nginx/nginx.conf, dest: /etc/nginx/nginx.conf }
+      - { src: selinux/nginx.pp, dest: /etc/nginx/nginx.pp}
+              
+  - name: Start Nginx
+    service:
+      name: nginx
+      enabled: true
+      state: started  
+
+  - name: Check for Custom Sepolicy
+    shell:
+      cmd: "semodule -l | grep nginx"
+    register: custom
+    ignore_errors: true
+    changed_when: custom.failed
+
+  - name: Create Custom Selinux Policy
+    shell:
+      cmd: "semodule -i /etc/nginx/nginx.pp"
+    when: custom.rc == 1

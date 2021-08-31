@@ -1,0 +1,31 @@
+---
+  - name: Add Docker Repository
+    shell: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    register: repo
+    changed_when: repo.failed | bool
+
+  - name: Install Docker Packages
+    dnf:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: present
+
+  - name: Add Users to Docker Group
+    user:
+      name: "{{ item }}"
+      groups: "docker"
+      append: true
+    loop: "{{ docker_users }}"
+
+  - name: Start Docker Services
+    service:
+      name: "{{ item }}"
+      enabled: true
+      state: started
+    loop:
+      - docker
+      - containerd
+      
+      
