@@ -11,6 +11,9 @@ fwd_ports:
   - 80/tcp
   - 8008/tcp
 
+git_control_jynx_dev: git@github.com:paganjoshua/control.jynx.dev.git
+git_jynx_dev: git@github.com:paganjoshua/jynx.dev.git
+
 nginx_conf: nginx.control.conf
 
 users: 
