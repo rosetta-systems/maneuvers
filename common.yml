@@ -1,0 +1,8 @@
+---
+- hosts: "{{ CURRENT_HOSTS }}"
+  roles:
+    - base
+    - ssh
+    - firewalld
+    - nginx
+    - docker

@@ -10,7 +10,7 @@
 
   - name: Create index.html
     copy:
-      src: nginx/index.html
+      src: index.html
       dest: /var/www/html
 
   - name: Setup nginx.conf
@@ -18,7 +18,7 @@
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
     loop:
-      - { src: nginx/nginx.conf, dest: /etc/nginx/nginx.conf }
+      - { src: "{{ nginx_conf }}", dest: /etc/nginx/nginx.conf }
       - { src: selinux/nginx.pp, dest: /etc/nginx/nginx.pp}
               
   - name: Start Nginx

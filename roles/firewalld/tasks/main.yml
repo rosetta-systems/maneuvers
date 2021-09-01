@@ -12,6 +12,7 @@
       permanent: true
       immediate: true
     loop: "{{ fwd_services }}"
+    notify: Reload Firewalld
 
   - name: Ports
     firewalld:
@@ -20,4 +21,4 @@
       permanent: true
       immediate: true
     loop: "{{ fwd_ports }}"
-      
+    notify: Reload Firewalld  

@@ -1,0 +1,16 @@
+---
+- hosts: workstation
+
+  pre_tasks:
+
+    - name: Update Repository Index
+      dnf:
+        update_cache: true
+        update_only: true
+
+  roles:
+    - workstation
+
+- import_playbook: common.yml
+  vars: 
+    CURRENT_HOSTS: workstation

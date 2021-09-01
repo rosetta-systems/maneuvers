@@ -1,0 +1,18 @@
+---
+- name: Setup .bashrc
+  block:
+    - name: Users
+      blockinfile:
+        path: /home/{{ item }}/.bashrc 
+        block: |
+          export EDITOR={{ EDITOR }}
+          export SYSTEMD_EDITOR={{ EDITOR }}
+      loop: "{{ users }}"
+
+    - name: Root
+      blockinfile:
+        path: /root/.bashrc
+        block: |
+          export EDITOR={{ EDITOR }}
+          export SYSTEMD_EDITOR={{ EDITOR }}
+

@@ -1,0 +1,23 @@
+docker_users:
+  - jynx
+  - satan
+
+EDITOR: /usr/bin/vim
+
+fwd_services:
+  - http
+  - https
+fwd_ports:
+  - 80/tcp
+  - 8008/tcp
+
+nginx_conf: nginx.control.conf
+
+users: 
+  - jynx
+  - satan
+
+ssh_users: jynx
+
+web_package: nginx
+web_service: nginx

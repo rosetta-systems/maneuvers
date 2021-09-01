@@ -10,5 +10,6 @@
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
     loop:
-      - { src: fail2ban/jail.local, dest: /etc/fail2ban/jail.local }
-      - { src: fail2ban/sshd.conf, dest: /etc/fail2ban/jail.d/sshd.conf }
+      - { src: jail.local, dest: /etc/fail2ban/jail.local }
+      - { src: sshd.conf, dest: /etc/fail2ban/jail.d/sshd.conf }
+    notify: Restart Fail2ban

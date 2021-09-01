@@ -1,0 +1,10 @@
+---
+- name: Install Packages
+  dnf:
+    name: 
+      - fail2ban
+      - firewalld
+      - ranger
+      - vim
+      - nginx
+    state: latest

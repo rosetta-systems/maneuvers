@@ -1,0 +1,20 @@
+docker_users:
+  - jynx
+
+EDITOR: /usr/bin/vim
+
+fwd_services:
+  - http
+  - https
+fwd_ports:
+  - 80/tcp
+
+nginx_conf: nginx.conf
+
+users: 
+  - jynx
+
+ssh_users: jynx
+
+web_package: nginx
+web_service: nginx
