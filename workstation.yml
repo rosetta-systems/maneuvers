@@ -11,6 +11,7 @@
   roles:
     - workstation
     - git
+    - ansible
 
 - import_playbook: common.yml
   vars: 

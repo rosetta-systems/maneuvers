@@ -1,0 +1,33 @@
+---
+  - name: Copy Vault Password File
+    copy:
+      src: "{{ item[0].src }}"
+      dest: "/home/{{ item[1] }}/jynx/control/{{ item[0].dest }}"
+      mode: 0600
+      owner: "{{ item[1] }}"
+      group: "{{ item[1] }}"
+    with_nested:
+      - "{{ vault_password_file }}"
+      - "{{ users }}"
+    no_log: true
+
+  - name: Copy SSH Keys
+    copy:
+      src: "{{ item[0].src }}"
+      dest: "/home/{{ item[1] }}/.ssh/{{ item[0].dest }}"
+      mode: preserve
+      owner: "{{ item[1] }}"
+      group: "{{ item[1] }}"
+      setype: ssh_home_t
+    with_nested:
+      - "{{ ssh_key_files }}"
+      - "{{ users }}"
+    no_log: true
+
+  - name: Correct Hosts File
+    lineinfile:
+      path: /etc/hosts
+      line: "{{ item }}"
+    loop:
+      "{{ hosts_file_entries }}"  
+    no_log: true
