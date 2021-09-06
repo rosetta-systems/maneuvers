@@ -9,7 +9,7 @@
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}{{ item[1].dest }}"
     clone: yes 
-    key_file: /home/jynx/.ssh/github
+    key_file: "/home/{{ item[0] }}/.ssh/github"
     ssh_opts: "-o ForwardAgent=yes"
   with_nested: 
     - "{{ users }}"

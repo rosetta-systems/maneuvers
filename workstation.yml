@@ -10,8 +10,8 @@
 
   roles:
     - workstation
-    - git
     - ansible
+    - git
 
 - import_playbook: common.yml
   vars: 
