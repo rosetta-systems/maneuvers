@@ -16,3 +16,7 @@
 - import_playbook: common.yml
   vars: 
     CURRENT_HOSTS: workstation
+
+- hosts: workstation
+  roles:
+    - deploy

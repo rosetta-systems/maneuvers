@@ -1,0 +1,10 @@
+---
+- name: Pull Docker Images
+  tags: deploy
+  ping:
+  register: ping
+
+- name: Debug
+  tags: deploy
+  debug:
+    msg: "{{ ping }}"
