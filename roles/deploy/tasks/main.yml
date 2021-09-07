@@ -16,8 +16,3 @@
       container_default_behavior: no_defaults
     with_dict:
       "{{ containers }}"
-
-  #- name: Debug
-  #  tags: deploy
-  #  debug:
-  #    msg: "{{ }}"

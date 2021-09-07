@@ -31,3 +31,7 @@
     loop:
       "{{ hosts_file_entries }}"  
     no_log: true
+
+  - name: Install Collections
+    tags: debug
+    command: ansible-galaxy collection install -r /home/jynx/jynx/control/requirements.yml
