@@ -1,6 +1,7 @@
 ---
 - hosts: "{{ CURRENT_HOSTS }}"
   roles:
+    - install
     - base
     - ssh
     - firewalld

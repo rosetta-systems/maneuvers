@@ -8,15 +8,12 @@
         update_cache: true
         update_only: true
 
-  roles:
-    - workstation
-    - ansible
-    - git
-
 - import_playbook: common.yml
   vars: 
     CURRENT_HOSTS: workstation
 
 - hosts: workstation
   roles:
+    - ansible
+    - git
     - deploy

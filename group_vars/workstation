@@ -1,3 +1,5 @@
+containers: {}
+
 docker_users:
   - jynx
   - satan
@@ -15,6 +17,19 @@ git_control_jynx_dev: git@github.com:paganjoshua/control.jynx.dev.git
 git_jynx_dev: git@github.com:paganjoshua/jynx.dev.git
 
 nginx_conf: nginx.control.conf
+
+packages:
+      - ansible
+      - fail2ban
+      - firewalld
+      - git
+      - golang
+      - nginx
+      - nmap
+      - policycoreutils-devel
+      - python3-pip
+      - ranger
+      - vim
 
 users: 
   - jynx

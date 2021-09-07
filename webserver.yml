@@ -8,9 +8,10 @@
         update_cache: true
         update_only: true
 
-  roles:
-    - webserver
-
 - import_playbook: common.yml 
   vars: 
     CURRENT_HOSTS: webserver
+
+- hosts: webserver
+  roles:
+    - deploy
