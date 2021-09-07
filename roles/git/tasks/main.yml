@@ -1,5 +1,6 @@
 ---
 - name: Clone Repositories
+  tags: git
   vars:
     github: 
       - { repo: "{{ git_control_jynx_dev }}", dest: /jynx/control }
@@ -14,9 +15,11 @@
   with_nested: 
     - "{{ users }}"
     - "{{ github }}"
+  ignore_errors: true
   register: clone
 
 - name: Chown Working Dir
+  tags: git
   file:
     state: directory
     setype: user_home_t
