@@ -36,7 +36,7 @@ func devlHandler(w http.ResponseWriter, r *http.Request) {
 		Log:	"goansi.log",
 		Cmd:	ansible.Cmd{
 			AnsibleCommand: "playbook",
-			Args: []string{	"-u", "jynx", "--tags", "update-images", "workstation.yml" },
+			Args: []string{	"-u", "jynx", "registry.yml" },
 		},
 	}
 
