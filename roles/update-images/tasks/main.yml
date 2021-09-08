@@ -1,0 +1,58 @@
+---
+- name: Pull Remote Code Update
+  tags: update-images
+  become: false
+  git:
+    repo: "{{ git_jynx_dev }}"
+    dest: jynx/dev
+
+- name: Build Update
+  tags: 
+    - update-images 
+    - debug
+  become: false
+  community.docker.docker_image:
+    name: localhost:5000/jynx.dev:update
+    build:
+      path: ./jynx/dev
+    source: build
+    force_source: true
+  register: update
+
+- name: Pull Local Repo Latest
+  tags: 
+    - update-images 
+    - debug
+  become: false
+  community.docker.docker_image:
+    name: localhost:5000/jynx.dev
+    source: pull
+  register: latest
+
+- name: Tag Latest as Stable and Push to Local Repo
+  tags: update-images
+  become: false
+  community.docker.docker_image:
+    name: localhost:5000/jynx.dev
+    repository: localhost:5000/jynx.dev:stable
+    force_tag: true
+    source: local
+    push: true
+  when: update.image.Id != latest.image.Id
+
+- name: Tag Update as Latest and Push to Local Repo
+  tags: update-images
+  become: false
+  community.docker.docker_image:
+    name: localhost:5000/jynx.dev:update
+    repository: localhost:5000/jynx.dev:latest
+    force_tag: true
+    source: local
+    push: true
+  when: update.image.Id != latest.image.Id
+
+- name: Prune Images
+  tags: update-images
+  become: false
+  community.docker.docker_prune:
+    images: yes
