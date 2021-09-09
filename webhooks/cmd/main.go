@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
-
+	"regexp"
+	
 	"github.com/paganjoshua/control.jynx.dev/webhooks/pkg/ansible"
 )
 
@@ -29,7 +31,26 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func devlHandler(w http.ResponseWriter, r *http.Request) {
+func devlHandler (w http.ResponseWriter, r *http.Request) {
+	dec := json.NewDecoder(r.Body)
+	var payload struct {
+		Ref string `json:"ref"`
+	}
+	err := dec.Decode(&payload)
+	if err != nil {
+		http.Error(w, "Error: Could Not Read JSON Body", http.StatusBadRequest)
+		log.Println(err)
+		return
+	}
+	re := regexp.MustCompile("devl")
+	devl := re.MatchString(payload.Ref)
+	if devl {
+		updateImages()
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func updateImages() {
 	var ansi ansible.Runner
 	params := ansible.Params{
 		User:	"jynx",
@@ -42,5 +63,4 @@ func devlHandler(w http.ResponseWriter, r *http.Request) {
 
 	ansi = ansible.New(params)
 	ansi.Run()
-	w.WriteHeader(http.StatusOK)
 }
