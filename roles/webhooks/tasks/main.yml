@@ -1,0 +1,41 @@
+---
+- name: Create Executable Directory
+  tags: webhooks
+  file:
+    path: /usr/local/sbin/jynx.dev
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Build Webhooks Executable
+  tags: webhooks
+  command: go build -o /tmp/jynx.dev/webhooks main.go
+  args:
+    chdir: /home/satan/jynx/control/webhooks/cmd
+  changed_when: false
+
+- name: Copy Executable When Changed
+  tags: webhooks
+  copy:
+    src: /tmp/jynx.dev/webhooks
+    dest: /usr/local/sbin/jynx.dev/webhooks
+    owner: root
+    group: jynx
+    mode: 0554
+  notify: Restart Webhooks
+
+- name: Copy Service File
+  tags: webhooks
+  copy:
+    src: jynx-webhooks.service
+    dest: /etc/systemd/system/jynx-webhooks.service
+    mode: preserve
+
+- name: Start Webhooks Service
+  tags: webhooks
+  service:
+    name: jynx-webhooks.service
+    enabled: true
+    state: started
+

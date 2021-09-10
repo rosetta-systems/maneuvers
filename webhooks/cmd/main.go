@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"regexp"
+	"strings"
 	
 	"github.com/paganjoshua/control.jynx.dev/webhooks/pkg/ansible"
 )
@@ -12,6 +12,7 @@ import (
 func main() {
 	http.HandleFunc("/main", mainHandler)
 	http.HandleFunc("/devl", devlHandler)
+	http.HandleFunc("/ping", pingHandler)
 	log.Fatal(http.ListenAndServe(":8008", nil))
 }
 
@@ -42,11 +43,12 @@ func devlHandler (w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	re := regexp.MustCompile("devl")
-	devl := re.MatchString(payload.Ref)
+
+	devl := strings.Contains(payload.Ref, "devl")
 	if devl {
 		updateImages()
 	}
+
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -63,4 +65,20 @@ func updateImages() {
 
 	ansi = ansible.New(params)
 	ansi.Run()
+}
+
+func pingHandler(w http.ResponseWriter, r *http.Request) {
+//	var ansi ansible.Runner
+//	params := ansible.Params{
+//		User:	"jynx",
+//		Log:	"goansi.log",
+//		Cmd:	ansible.Cmd{
+//			AnsibleCommand: "playbook",
+//			Args: []string{	"-u", "jynx", "-v", "ping.yml" },
+//		},
+//	}
+//
+//	ansi = ansible.New(params)
+//	ansi.Run()
+	w.Write([]byte("\npong\n\n"))
 }

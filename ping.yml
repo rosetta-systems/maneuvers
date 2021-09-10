@@ -1,0 +1,4 @@
+- hosts: webserver
+  tasks:
+    - name: pong
+      ping:

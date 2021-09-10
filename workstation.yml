@@ -17,5 +17,4 @@
     - ansible
     - git
     - deploy
-    - update-images
-
+    - webhooks

@@ -1,0 +1,5 @@
+---
+- name: Restart Webhooks
+  service:
+    name: jynx-webhooks
+    state: restarted
