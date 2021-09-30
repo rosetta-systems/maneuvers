@@ -23,7 +23,7 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		Log:	"goansi.log",
 		Cmd:	ansible.Cmd{
 			AnsibleCommand: "playbook",
-			Args: []string{	"-u", "jynx", "--tags", "deploy", "webserver.yml" },
+			Args: []string{	"-u", "jynx", "-i", "production", "--tags", "deploy", "webserver.yml" },
 		},
 	}
 

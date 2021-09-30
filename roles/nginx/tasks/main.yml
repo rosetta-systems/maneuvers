@@ -20,6 +20,7 @@
     loop:
       - { src: "{{ nginx_conf }}", dest: /etc/nginx/nginx.conf }
       - { src: selinux/nginx.pp, dest: /etc/nginx/nginx.pp}
+    notify: Restart Nginx
               
   - name: Start Nginx
     service:

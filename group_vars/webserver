@@ -3,7 +3,7 @@ containers:
     name: site_webserver 
     image: jynx1010/jynx.dev:latest
     ports: 
-      - 3000:3000
+      - 8080:8080
 
 docker_users:
   - jynx
@@ -15,8 +15,6 @@ fwd_services:
   - https
 fwd_ports:
   - 80/tcp
-
-nginx_conf: nginx.conf
 
 packages:
       - fail2ban
