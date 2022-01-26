@@ -1,5 +1,5 @@
 ---
-- hosts: workstation
+- hosts: hybrid
 
   pre_tasks:
 
@@ -10,11 +10,10 @@
 
 - import_playbook: common.yml
   vars: 
-    CURRENT_HOSTS: workstation
+    CURRENT_HOSTS: hybrid
 
-- hosts: workstation
+- hosts: hybrid
   roles:
-    # TODO: switched git/ansible, ensure still works
     - git
     - ansible
     - deploy

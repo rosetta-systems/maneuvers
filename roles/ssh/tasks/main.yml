@@ -13,6 +13,7 @@
       path: /etc/ssh/sshd_config.d/allowed_users.conf
       block: AllowUsers {{ ssh_users }}
     notify: Reload sshd
+    no_log: true
 
   - name: Start sshd
     service:

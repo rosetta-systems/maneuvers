@@ -1,8 +1,12 @@
-containers: {}
+containers:
+  site_webserver:
+    name: site_webserver 
+    image: jynx1010/jynx.dev:latest
+    ports: 
+      - 8080:8080
 
 docker_users:
   - jynx
-  - satan
 
 EDITOR: /usr/bin/vim
 
@@ -15,9 +19,6 @@ fwd_ports:
 
 github:
   - { repo: git@github.com:paganjoshua/control.jynx.dev.git, dest: /jynx/control }
-  - { repo: git@github.com:paganjoshua/jynx.dev.git, dest: /jynx/dev }
-
-nginx_conf: nginx.control.conf
 
 packages:
       - ansible
@@ -34,7 +35,6 @@ packages:
 
 users: 
   - jynx
-  - satan
 
 ssh_users: jynx
 

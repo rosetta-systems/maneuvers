@@ -1,0 +1,5 @@
+nginx_conf: nginx.hybrid.stage.conf
+
+hosts_file_entries:
+  - "127.0.0.1  hell jynx.dev ctl.jynx.dev www.jynx.dev"
+  - "192.168.1.166  mirror"

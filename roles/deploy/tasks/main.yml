@@ -4,6 +4,7 @@
     community.docker.docker_login:
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
+    no_log: true
 
   - name: Rebuild Container With New Image
     tags: deploy

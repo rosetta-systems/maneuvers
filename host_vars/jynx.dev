@@ -1,1 +1,4 @@
-nginx_conf: nginx.prod.conf
+nginx_conf: nginx.hybrid.prod.conf
+
+hosts_file_entries: 
+  - ""

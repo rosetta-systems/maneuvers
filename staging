@@ -1,5 +1,8 @@
+[hybrid]
+mirror
+
 [workstation]
-hell 
+hell
 
 [webserver]
-mirror
+_mirror

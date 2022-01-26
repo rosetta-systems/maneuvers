@@ -1,5 +1,6 @@
 ---
   - name: Copy Vault Password File
+    tags: ansible
     copy:
       src: "{{ item[0].src }}"
       dest: "/home/{{ item[1] }}/jynx/control/{{ item[0].dest }}"
@@ -12,6 +13,7 @@
     no_log: true
 
   - name: Copy SSH Keys
+    tags: ansible
     copy:
       src: "{{ item[0].src }}"
       dest: "/home/{{ item[1] }}/.ssh/{{ item[0].dest }}"
@@ -25,6 +27,7 @@
     no_log: true
 
   - name: Correct Hosts File
+    tags: ansible
     lineinfile:
       path: /etc/hosts
       line: "{{ item }}"
@@ -33,4 +36,5 @@
     no_log: true
 
   - name: Install Collections
+    tags: ansible
     command: ansible-galaxy collection install -r /home/jynx/jynx/control/requirements.yml
