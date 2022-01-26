@@ -10,10 +10,56 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/main", mainHandler)
-	http.HandleFunc("/devl", devlHandler)
+	http.HandleFunc("/hybrid/site", siteHandler)
+	http.HandleFunc("/hybrid/ctl", ctlHandler)
 	http.HandleFunc("/ping", pingHandler)
 	log.Fatal(http.ListenAndServe(":8008", nil))
+}
+
+func siteHandler(w http.ResponseWriter, r *http.Request) {
+	var ansi ansible.Runner
+	params := ansible.Params{
+		User:	"jynx",
+		Log:	"goansi.log",
+		Cmd:	ansible.Cmd{
+			AnsibleCommand: "playbook",
+			Args: []string{	"-u", "jynx", "-i", "production", "--tags", "deploy", "hybrid.yml" },
+		},
+	}
+
+	ansi = ansible.New(params)
+	ansi.Run()
+	w.WriteHeader(http.StatusOK)
+}
+
+func ctlHandler(w http.ResponseWriter, r *http.Request) {
+	dec := json.NewDecoder(r.Body)
+	var payload struct {
+		Ref string `json:"ref"`
+	}
+	err := dec.Decode(&payload)
+	if err != nil {
+		http.Error(w, "Error: Could Not Read JSON Body", http.StatusBadRequest)
+		log.Println(err)
+		return
+	}
+	
+	if strings.Contains(payload.Ref, "main") {
+		var ansi ansible.Runner
+		params := ansible.Params{
+			User:	"jynx",
+			Log:	"goansi.log",
+			Cmd:	ansible.Cmd{
+				AnsibleCommand: "playbook",
+				Args: []string{	"-u", "jynx", "-i", "production", "--skip-tags", "deploy", "update-hybrid.yml" },
+			},
+		}
+
+		ansi = ansible.New(params)
+		ansi.Run()
+	}
+	
+	w.WriteHeader(http.StatusOK)
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
