@@ -20,6 +20,7 @@
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}{{ item[1].dest }}"
     clone: yes 
+    version: "main"
     key_file: "/home/{{ item[0] }}/.ssh/github"
       # TODO automate securely gathering host key
       # i.e. do not set 'StrictHostKeyChecking=no'
