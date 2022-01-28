@@ -22,7 +22,7 @@
     KNOWN_HOSTS: ~/.ssh/known_hosts
 
 - name: Clone Repositories
-  tags: git
+  tags: git update-git
   # Becoming root causes issues with key_file
   become: false
   git:

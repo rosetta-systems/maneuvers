@@ -44,6 +44,8 @@ func ctlHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
+	w.WriteHeader(http.StatusOK)
+
 	if strings.Contains(payload.Ref, "main") {
 		var ansi ansible.Runner
 		params := ansible.Params{
@@ -51,7 +53,19 @@ func ctlHandler(w http.ResponseWriter, r *http.Request) {
 			Log:	"goansi.log",
 			Cmd:	ansible.Cmd{
 				AnsibleCommand: "playbook",
-				Args: []string{	"-u", "jynx", "-i", "production", "--skip-tags", "deploy", "update-hybrid.yml" },
+				Args: []string{	"-u", "jynx", "-i", "production", "--tags", "update-git", "hybrid.yml" },
+			},
+		}
+
+		ansi = ansible.New(params)
+		ansi.Run()
+
+		params = ansible.Params{
+			User:	"jynx",
+			Log:	"goansi.log",
+			Cmd:	ansible.Cmd{
+				AnsibleCommand: "playbook",
+				Args: []string{	"-u", "jynx", "-i", "production", "--skip-tags", "deploy,git", "hybrid.yml" },
 			},
 		}
 
@@ -59,7 +73,6 @@ func ctlHandler(w http.ResponseWriter, r *http.Request) {
 		ansi.Run()
 	}
 	
-	w.WriteHeader(http.StatusOK)
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
