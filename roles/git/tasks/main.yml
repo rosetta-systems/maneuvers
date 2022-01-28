@@ -1,5 +1,6 @@
 ---
-- name: Copy SSH Kes
+- name: Copy SSH Keys
+  tags: git
   copy:
     src: "{{ item[0].src }}"
     dest: "/home/{{ item[1] }}/.ssh/{{ item[0].dest }}"
@@ -12,6 +13,14 @@
     - "{{ users }}"
   no_log: true
 
+- name: Run Keyscan
+  tags: git
+  include_role:
+    name: keyscan
+  vars:
+    HOSTNAME: github.com
+    KNOWN_HOSTS: ~/.ssh/known_hosts
+
 - name: Clone Repositories
   tags: git
   # Becoming root causes issues with key_file
@@ -22,9 +31,6 @@
     clone: yes 
     version: "main"
     key_file: "/home/{{ item[0] }}/.ssh/github"
-      # TODO automate securely gathering host key
-      # i.e. do not set 'StrictHostKeyChecking=no'
-      #accept_hostkey: yes
     ssh_opts: "-o ForwardAgent=yes -o StrictHostKeyChecking=yes"
   with_nested: 
     - "{{ users }}"
@@ -32,17 +38,19 @@
   ignore_errors: true
   register: clone
 
-# TODO is this necessary anymore?
-- name: Chown Working Dir
-  tags: git
-  file:
-    state: directory
-    setype: user_home_t
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    path: "/home/{{ item }}/jynx"
-    recurse: true
-  loop: 
-    "{{ users }}"
-  when: clone.changed
+# this is only necessary when cloning as root for a workspace
+# on a non-production system for a non-jynx user, but a 
+# real solution would be cloning as the correct user
+#- name: Chown Working Dir
+#  tags: git
+#  file:
+#    state: directory
+#    setype: user_home_t
+#    owner: "{{ item }}"
+#    group: "{{ item }}"
+#    path: "/home/{{ item }}/jynx"
+#    recurse: true
+#  loop: 
+#    "{{ users }}"
+#  when: clone.changed
   

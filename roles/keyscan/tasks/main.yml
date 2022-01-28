@@ -1,0 +1,8 @@
+---
+  - name: Add Host Keys if Not Present
+    # tags needs to include any tags that use this role
+    tags: git
+    become: false
+    shell:
+      cmd: "ssh-keygen -F {{ HOSTNAME }} -f {{ KNOWN_HOSTS }} | grep -q found || ssh-keyscan -H {{ HOSTNAME }} >> {{ KNOWN_HOSTS }} 2>/dev/null"
+
