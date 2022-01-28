@@ -1,11 +1,13 @@
 ---
   - name: Start Fail2ban
+    tags: fail2ban
     service:
       name: fail2ban
       enabled: true
       state: started
   
   - name: Setup Conf
+    tags: fail2ban
     copy:
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
