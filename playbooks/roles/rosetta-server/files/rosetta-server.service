@@ -1,0 +1,13 @@
+[Unit]
+Description=Rosetta Systems API Server
+After=network.target
+
+[Service]
+Type=exec
+ExecStart=/usr/local/sbin/rosetta.systems/rosetta-server
+User=rosetta
+Group=rosetta
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,4 +1,0 @@
-nginx_conf: nginx.hybrid.prod.conf
-
-hosts_file_entries: 
-  - ""

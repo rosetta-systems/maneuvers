@@ -1,0 +1,5 @@
+---
+- name: Restart rosetta-server
+  service:
+    name: rosetta-server.service
+    state: restarted

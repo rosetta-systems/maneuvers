@@ -1,0 +1,4 @@
+nginx_conf: nginx.rosetta.prod.conf
+
+hosts_file_entries: 
+  - ""

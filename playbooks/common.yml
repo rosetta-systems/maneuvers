@@ -3,8 +3,9 @@
   roles:
     - install
     - base
-    - ssh
+    - sshd
     - firewalld
     - fail2ban
+    - selinux
     - nginx
     - docker

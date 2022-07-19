@@ -1,0 +1,6 @@
+---
+- hosts: rosetta
+  roles:
+    - update-git
+
+- import_playbook: rosetta.yml

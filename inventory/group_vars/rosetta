@@ -1,0 +1,50 @@
+containers:
+  jynx_site_webserver:
+    name: jynx_site_webserver 
+    image: jynx1010/jynx.dev:latest
+    ports: 
+      - 40001:8080
+  rosetta_site_webserver:
+    name: rosetta_site_webserver 
+    image: jynx1010/rosetta-site:latest
+    ports: 
+      - 40000:8080
+
+docker_users:
+  - rosetta
+
+EDITOR: /usr/bin/vim
+
+fwd_services:
+  - http
+  - https
+fwd_ports:
+  - 80/tcp
+  - 8008/tcp
+
+github:
+  - { repo: git@github.com:rosetta-systems/maneuvers.git, dest: /rosetta/maneuvers}
+  - { repo: git@github.com:rosetta-systems/rosetta.git, dest: /rosetta/rosetta}
+
+packages:
+      - ansible
+      - fail2ban
+      - firewalld
+      - git
+      - golang
+      - nginx
+      - nmap
+      - policycoreutils-devel
+      - python3-pip
+      - ranger
+      - vim
+
+rosetta_server_user: rosetta
+
+ssh_users: rosetta
+
+users: 
+  - rosetta
+
+web_package: nginx
+web_service: nginx

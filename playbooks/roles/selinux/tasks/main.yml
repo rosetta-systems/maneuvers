@@ -1,0 +1,8 @@
+---
+- name: Assign 40000 Port Range to http_port_t
+  tags: selinux
+  community.general.seport:
+    ports: 40000-40001
+    proto: tcp
+    setype: http_port_t
+    state: present

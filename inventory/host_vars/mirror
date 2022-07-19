@@ -1,0 +1,5 @@
+nginx_conf: nginx.rosetta.stage.conf
+
+hosts_file_entries:
+  - "127.0.0.1  mirror rosetta.systems ctl.rosetta.systems www.rosetta.systems"
+  - "192.168.1.116  hell"

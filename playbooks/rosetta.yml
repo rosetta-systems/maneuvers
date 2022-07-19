@@ -1,5 +1,5 @@
 ---
-- hosts: webserver
+- hosts: rosetta
 
   pre_tasks:
 
@@ -8,10 +8,13 @@
         update_cache: true
         update_only: true
 
-- import_playbook: common.yml 
+- import_playbook: common.yml
   vars: 
-    CURRENT_HOSTS: webserver
+    CURRENT_HOSTS: rosetta
 
-- hosts: webserver
+- hosts: rosetta
   roles:
+    - git
+    - ansible
     - deploy
+    - rosetta-server

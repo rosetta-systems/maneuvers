@@ -1,0 +1,42 @@
+---
+- name: Create Executable Directory
+  tags: rosetta-server
+  file:
+    path: /usr/local/sbin/rosetta.systems
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Build rosetta-server Executable
+  tags: rosetta-server
+  command: go build -o /tmp/rosetta.systems/rosetta-server main.go
+  args:
+    chdir: "/home/{{ rosetta_server_user }}/rosetta/rosetta/cmd/rosetta-server"
+  changed_when: false
+
+- name: Copy Executable When Changed
+  tags: rosetta-server
+  copy:
+    remote_src: yes
+    src: /tmp/rosetta.systems/rosetta-server
+    dest: /usr/local/sbin/rosetta.systems/rosetta-server
+    owner: root
+    group: rosetta
+    mode: 0554
+  notify: Restart rosetta-server
+
+- name: Copy Service File
+  tags: rosetta-server
+  copy:
+    src: rosetta-server.service
+    dest: /etc/systemd/system/rosetta-server.service
+    mode: preserve
+
+- name: Start rosetta-server Service
+  tags: rosetta-server
+  service:
+    name: rosetta-server.service
+    enabled: true
+    state: started
+

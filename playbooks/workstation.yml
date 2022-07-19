@@ -18,4 +18,4 @@
     - git
     - ansible
     - deploy
-    - webhooks
+    - rosetta-server

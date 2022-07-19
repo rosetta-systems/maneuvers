@@ -1,6 +1,0 @@
----
-- hosts: hybrid
-  roles:
-    - update-git
-
-- import_playbook: hybrid.yml

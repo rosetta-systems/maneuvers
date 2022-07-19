@@ -3,7 +3,7 @@
     tags: ansible
     copy:
       src: "{{ item[0].src }}"
-      dest: "/home/{{ item[1] }}/jynx/control/{{ item[0].dest }}"
+      dest: "/home/{{ item[1] }}/rosetta/maneuvers/{{ item[0].dest }}"
       mode: 0600
       owner: "{{ item[1] }}"
       group: "{{ item[1] }}"
@@ -37,4 +37,4 @@
 
   - name: Install Collections
     tags: ansible
-    command: ansible-galaxy collection install -r /home/jynx/jynx/control/requirements.yml
+    command: ansible-galaxy collection install -r /home/rosetta/rosetta/maneuvers/requirements.yml

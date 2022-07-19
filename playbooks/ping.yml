@@ -1,4 +1,4 @@
-- hosts: webserver
+- hosts: rosetta
   tasks:
     - name: pong
       ping:
