@@ -23,7 +23,12 @@
     loop:
       - { src: "{{ nginx_conf }}", dest: /etc/nginx/nginx.conf }
       - { src: selinux/nginx.pp, dest: /etc/nginx/nginx.pp}
-    notify: Restart Nginx
+    notify: 
+      - Check for Cert File
+      - Warn Missing Certs
+      - Certs Exist
+      - Validate Config
+      - Restart Nginx
               
   - name: Start Nginx
     tags: nginx

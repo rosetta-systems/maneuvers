@@ -1,0 +1,67 @@
+---
+- name: Git Clone acme.sh
+  tags: acme
+  git:
+    repo: "https://github.com/acmesh-official/acme.sh.git"
+    dest: "/root/acme.sh"
+    clone: yes
+
+- name: Install acme.sh
+  tags: acme
+  command: ./acme.sh --install -m joshuajpagan@gmail.com
+  args:
+    chdir: "/root/acme.sh"
+    creates: "/root/.acme.sh/acme.sh"
+
+- name: Create Cert Path
+  tags: acme
+  file:
+    path: "/etc/nginx/acme/{{ item }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0775"
+  loop:
+    - "rosetta.systems"
+      #- "jynx.dev"
+
+- name: Issue acme.sh Certs
+  tags: acme
+  command: >-
+    ./acme.sh --issue
+    --dns dns_dgon -d "{{ rosetta.main }}"
+    --dns dns_dgon -d "{{ rosetta.wildcard }}" 
+    --dns dns_dgon -d "{{ jynx.main }}"
+    --dns dns_dgon -d "{{ jynx.wildcard }}" 
+    -w /var/www/rosetta.systems
+  environment: "{{ dns_api_keys }}"
+  args:
+    chdir: "/root/.acme.sh"
+    creates: "/root/.acme.sh/{{ rosetta.main }}"
+  vars:
+    rosetta:
+      main: rosetta.systems
+      wildcard: '*.rosetta.systems'
+    jynx:
+      main: jynx.dev
+      wildcard: '*.jynx.dev'
+        #loop:
+        #  - { main: rosetta.systems, wildcard: '*.rosetta.systems' }
+        #  - { main: jynx.dev, wildcard: '*.jynx.dev' }
+
+- name: Install acme.sh Certs
+  tags: acme
+  command: >-
+    ./acme.sh --install-cert -d "rosetta.systems"
+    --cert-file "{{ acme_path }}/cert.pem"
+    --key-file "{{ acme_path }}/key.pem"
+    --fullchain-file "{{ acme_path }}/fullchain.pem"
+    --reloadcmd "systemctl reload nginx"
+  vars:
+    acme_path: /etc/nginx/acme/rosetta.systems
+  args:
+    chdir: "/root/.acme.sh"
+    creates: "/etc/nginx/acme/rosetta.systems/fullchain.pem"
+      #loop:
+      #  - "rosetta.systems"
+      #  - "jynx.dev"

@@ -16,5 +16,6 @@
   roles:
     - git
     - ansible
+    - acme.sh
     - deploy
     - rosetta-server
