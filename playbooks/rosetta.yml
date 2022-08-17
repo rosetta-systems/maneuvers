@@ -16,6 +16,12 @@
   roles:
     - git
     - ansible
+
+- hosts: rosetta:&rosetta.systems
+  roles:
     - acme.sh
+
+- hosts: rosetta
+  roles:
     - deploy
     - rosetta-server

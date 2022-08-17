@@ -1,4 +1,5 @@
 - hosts: rosetta
   tasks:
     - name: pong
+      tags: ping
       ping:
