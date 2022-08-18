@@ -23,8 +23,10 @@ fwd_ports:
   - 8008/tcp
 
 github:
-  - { repo: git@github.com:rosetta-systems/maneuvers.git, dest: /rosetta/maneuvers}
-  - { repo: git@github.com:rosetta-systems/rosetta.git, dest: /rosetta/rosetta}
+  - { repo: git@github.com:rosetta-systems/maneuvers.git, dest: /rosetta/maneuvers, branch: "{{ maneuvers_branch }}"}
+  - { repo: git@github.com:rosetta-systems/rosetta.git, dest: /rosetta/rosetta, branch: main }
+
+maneuvers_branch: main
 
 packages:
       - ansible
