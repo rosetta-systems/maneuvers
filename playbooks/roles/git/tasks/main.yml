@@ -44,7 +44,8 @@
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}{{ item[1].dest }}"
     clone: yes 
-    version: "main"
+    version: "{{ item[1].branch }}"
+    single_branch: yes
     key_file: "/home/{{ item[0] }}/.ssh/github"
     ssh_opts: "-o ForwardAgent=yes -o StrictHostKeyChecking=yes"
   with_nested: 
