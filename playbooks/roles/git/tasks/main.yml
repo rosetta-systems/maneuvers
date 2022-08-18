@@ -13,6 +13,19 @@
     - "{{ users }}"
   no_log: true
 
+- name: Set Defaults in Git Config
+  tags: git
+  become: false
+  no_log: true
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  loop:
+    - { name: core.sshcommand, value: "ssh -i ~/.ssh/github" }
+    - { name: user.email, value: "{{ git_email }}" }
+    - { name: user.name, value: "rosetta" }
+
 - name: Run Keyscan
   tags: git
   include_role:

@@ -37,4 +37,5 @@
 
   - name: Install Collections
     tags: ansible
-    command: ansible-galaxy collection install -r /home/rosetta/rosetta/maneuvers/requirements.yml
+    become: false
+    command: ansible-galaxy collection install --force -r /home/rosetta/rosetta/maneuvers/requirements.yml -p /home/rosetta/rosetta/maneuvers/collections/ansible_collections
